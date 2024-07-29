@@ -2,13 +2,22 @@
 {% block title %}shorten URL{% endblock %}
 
 {% block content %}
-<form action="#" , method="post">
-	<label for="url">Enter an https:// URL : </label>
-	<input type="url" name="nm" id="url" placeholder="https://example.com" pattern="https://.*" size="50" required>
-	<br>
-	<label for="short">Enter the desired shortened url : </label>
-	<input type="text" name="short" id="short" required>
-	<br>
-	<input type="submit" value="submit" class="btn btn-primary">
-</form>
+<div class="box">
+	<form action="#" , method="post">
+		<div class="wrapper" style="text-align: center;">
+			<h2 style="color : white">URL Shortener</h2>
+		</div>
+		<hr style= "border-top: 2px solid palegoldenrod; padding-bottom: 20px;">
+		<div class="container">
+			<input type="text" name="nm" id="url" required>
+			<label>Destination</label>
+		</div>
+		<div class="container">
+			<input type="text" name="short" id="short" required>
+			<label>Custom back-half</label>
+		</div>
+		<button class="btn" role="button">Proceed</button>
+	</form>
+</div>
 {% endblock %}
+

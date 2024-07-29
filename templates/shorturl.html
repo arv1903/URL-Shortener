@@ -1,6 +1,27 @@
+<script>
+	function copyToClipboard(text) {
+		navigator.clipboard.writeText("https://127.0.0.1:5000/" + text)
+		.then(function() {
+			alert('Copied to clipboard');
+		})
+		.catch(function(err) {
+			console.error('Unable to copy', err);
+			alert('Failed to copy to clipboard.');
+		});
+	}
+</script>
 {% extends "base.html" %}
 {% block title %}Short URL{% endblock %}
 
 {% block content %}
-	<h1>{{short_url_display}}</h1>
+	<div class="box" style="min-height: 50%; display: block; justify-content: center; align-items: center; margin: auto; text-align: center;">
+		<a href= "{{ original }}" target = "_blank"><img alt="Logo" src="https://www.google.com/s2/favicons?domain={{ original }}&amp;sz=256" style="width: 200px; height: 200px;"></a>
+		<hr style="border-top : 1px solid palegoldenrod;">
+
+		<h4 style="color: palegoldenrod">{{ original }}</h4>
+		<br>
+		<button onclick="copyToClipboard('{{ short_url_display }}')" class = "btn">Copy link</button>
+
+		<!-- <h4><a href ="{{ original }}" target="_blank"">https://127.0.0.1:5000/{{short_url_display}}</a></h4> -->
+	</div>
 {% endblock %}

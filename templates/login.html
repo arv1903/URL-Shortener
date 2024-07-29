@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class="login">
+        <form method="POST" action="">
+			{{ form.hidden_tag() }}
+			<fieldset class="field-login">
+				<legend class="legend-login">Login</legend>
+
+				<div class="login-username">
+					{{ form.username.label(class="") }}
+
+					{% if form.username.errors%}
+						{{ form.username(class="") }}
+						<div class="">
+							{% for error in form.username.errors %}
+					f			<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.username(class=" ") }}
+					{% endif %}
+
+				</div>
+
+				<div class="login-password">
+					{{ form.password.label(class="") }}
+
+					{% if form.password.errors%}
+						{{ form.password(class="") }}
+						<div class="">
+							{% for error in form.password.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.password(class=" ") }}
+					{% endif %}
+
+				</div>
+			</fieldset>
+			<div class="" style="width: 95%;">
+				{{ form.submit(class="btn btn-outline-info") }}
+			</div>
+			
+
+		</form>
+	</div>
+{% endblock content %}
