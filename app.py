@@ -49,8 +49,6 @@ class Urls(db.Model):
 		self.long = long
 		self.short = short
   
-
- 
 with app.app_context():	
 	db.create_all()
 
@@ -66,13 +64,13 @@ def exists_username(form, username):
 class LoginForm(FlaskForm):
 	username             = StringField("Username", validators=[DataRequired()])
 	password             = PasswordField("Password", validators=[DataRequired()])
-	submit               = SubmitField("Login")
+	submit               = SubmitField("Submit")
 
 class SignUpForm(FlaskForm):
 	username             = StringField("Username", validators=[DataRequired(), Length(min=4, max=12), exists_username])
 	password             = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
 	confirm_password     = PasswordField("Confirm password", validators=[DataRequired(), Length(min=8), EqualTo("password")])
-	submit               = SubmitField("Sign Up")
+	submit               = SubmitField("Submit")
 
 #########################################################
 #-=-=-=--=-=-=-=-=-=-=-=- ROUTES =-=-=-=--=-=-=-=-=-=-=-#

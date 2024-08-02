@@ -1,59 +1,56 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="">
+<div class="signup">
 	<form method="POST" action="">
 		{{ form.hidden_tag() }}
-		<fieldset class="">
-			<legend class="">Daftar</legend>
+		<div class="box">
+			<h4 class="mb-4 pb-3">Sign up</h4>
 
-			<div class="">
-				{{ form.username.label(class="") }}
-
+			<div class="form-group">
 				{% if form.username.errors%}
-				{{ form.username(class="") }}
+				{{ form.username(autocomplete="off", placeholder = "Username", class = "form-style") }}
 				<div class="">
 					{% for error in form.username.errors %}
 					<span>{{ error }}</span>
 					{% endfor %}
 				</div>
 				{% else %}
-				{{ form.username(class="form-control ") }}
+				{{ form.username(autocomplete="off", placeholder = "Username", class = "form-style") }}
 				{% endif %}
-
+				<i class="input-icon bi bi-person"></i>
 			</div>
-			<div class="">
-				{{ form.password.label(class="") }}
-
+			<br>
+			<div class="form-group">
 				{% if form.password.errors%}
-				{{ form.password(class="") }}
+				{{ form.password(autocomplete="off", placeholder = "Password", class = "form-style") }}
 				<div class="">
 					{% for error in form.password.errors %}
 					<span>{{ error }}</span>
 					{% endfor %}
 				</div>
 				{% else %}
-				{{ form.password(class="form-control ") }}
+				{{ form.password(autocomplete="off", placeholder = "Password", class = "form-style") }}
 				{% endif %}
-
+				<i class="input-icon bi bi-key"></i>
 			</div>
-
-			<div class="">
-				{{ form.confirm_password.label(class="") }}
-
+			<br>
+			<div class="form-group">
 				{% if form.confirm_password.errors%}
-				{{ form.confirm_password(class="") }}
+				{{ form.confirm_password(autocomplete="off", placeholder = "Confirm Password", class = "form-style") }}
 				<div class="">
 					{% for error in form.password.errors %}
 					<span>{{ error }}</span>
 					{% endfor %}
 				</div>
 				{% else %}
-				{{ form.confirm_password(class="form-control ") }}
+				{{ form.confirm_password(autocomplete="off", placeholder = "Confirm Password", class = "form-style") }}
 				{% endif %}
-
+				<i class="input-icon bi bi-check2"></i>
 			</div>
-		</fieldset>
+			<br>
+			{{ form.submit(class="submit-btn") }}
+		</div>
 
 
 	</form>

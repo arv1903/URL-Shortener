@@ -1,47 +1,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="box">
+<div class="login">
 	<form method="POST" action="">
 		{{ form.hidden_tag() }}
-		<fieldset class="field-login">
-			<legend class="legend-login">Login</legend>
+		<div class="box">
+			<h4 class="mb-4 pb-3">Log In</h4>
 
-			<div class="login-username">
-				{{ form.username.label(class="") }}
-
+			<div class="form-group">
 				{% if form.username.errors%}
-				{{ form.username(class="") }}
+				{{ form.username(autocomplete="off", placeholder = "Username", class = "form-style") }}
 				<div class="">
 					{% for error in form.username.errors %}
-					f <span>{{ error }}</span>
+					<span>{{ error }}</span>
 					{% endfor %}
 				</div>
 				{% else %}
-				{{ form.username(class=" ") }}
+				{{ form.username(autocomplete="off", placeholder = "Username", class = "form-style") }}
 				{% endif %}
-
+				<i class="input-icon bi bi-person"></i>
 			</div>
-
-			<div class="login-password">
-				{{ form.password.label(class="") }}
-
+			<br>
+			<div class="form-group">
 				{% if form.password.errors%}
-				{{ form.password(class="") }}
+				{{ form.password(autocomplete="off", placeholder = "Password", class = "form-style") }}
 				<div class="">
 					{% for error in form.password.errors %}
 					<span>{{ error }}</span>
 					{% endfor %}
 				</div>
 				{% else %}
-				{{ form.password(class=" ") }}
+				{{ form.password(autocomplete="off", placeholder = "Password", class = "form-style") }}
 				{% endif %}
-
+				<i class="input-icon bi bi-key"></i>
 			</div>
-		</fieldset>
-		<div class="" style="width: 95%;">
-			{{ form.submit(class="btn btn-outline-info") }}
+			<br>
+			{{ form.submit(class="submit-btn") }}
 		</div>
+		
 
 
 	</form>
