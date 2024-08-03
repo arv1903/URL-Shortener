@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="login">
-	<form method="POST" action="">
+	<form method="POST" action="" autocomplete="off">
 		{{ form.hidden_tag() }}
 		<div class="box">
 			<h4 class="mb-4 pb-3">Log In</h4>
@@ -37,7 +37,7 @@
 			<br>
 			{{ form.submit(class="submit-btn") }}
 		</div>
-		
+
 
 
 	</form>

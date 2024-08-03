@@ -1,23 +1,35 @@
 {% extends "base.html" %}
 {% block title %}shorten URL{% endblock %}
 
-{% block content %}
-<div class="box">
-	<form action="#" , method="post">
-		<div class="wrapper" style="text-align: center;">
-			<h2 style="color : white">URL Shortener</h2>
-		</div>
-		<hr style= "border-top: 2px solid grey; margin-top: 20px; margin-bottom: 20px;">
-		<div class="container">
-			<input type="text" name="nm" id="url" required>
-			<label>Destination</label>
-		</div>
-		<div class="container">
-			<input type="text" name="short" id="short" required>
-			<label>Custom back-half</label>
-		</div>
-		<button class="btn" role="button">Proceed</button>
-	</form>
-</div>
-{% endblock %}
+<script>
+	function validateForm() {
+		let x = document.getElementById("url").value;
+		console.log(x);
+		const regex = /^(https?:\/\/.*\..*)$/;
+		if (!regex.test(x)) {
+			alert('Please enter a valid URL that includes "http://" or "https://" and a "."');
+			return false;
+		}
+		return true;
+	};
+</script>
 
+{% block content %}
+<form action="#" , method="post" class="box" autocomplete="off" onsubmit="return validateForm()">
+	<div class="wrapper" style="text-align: center;">
+		<h2 style="color : white">URL Shortener</h2>
+	</div>
+	<hr style="border-top: 2px solid white; margin-top: 20px; margin-bottom: 20px;">
+	<div class="form-group">
+		<input placeholder="Destination" class = "form-style" type="text" name="nm" id="url" pattern="https?://.*\..*" title='Please submit a valid website address that includes "https://" or "http://" and "."' required>
+		<i class="input-icon bi bi-link-45deg"></i>
+	</div>
+	<br>
+	<div class="form-group">
+		<input placeholder="Custom back-half" class = "form-style" type="text" name="short" id="short" minlength="6">
+		<i class="input-icon bi bi-regex"></i>
+	</div>
+	<br>
+	<input class="submit-btn" type="submit"></input>
+</form>
+{% endblock %}

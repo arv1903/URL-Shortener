@@ -3,6 +3,8 @@ from flask_login import login_user, login_required, logout_user, current_user, L
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 import os
+import string
+import random
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
@@ -51,15 +53,27 @@ class Urls(db.Model):
   
 with app.app_context():	
 	db.create_all()
-
+ 
 #########################################################
-#-=-=-=--=-=-=-=-=-=-=-=- FORMS -=-=-=-=--=-=-=-=-=-=-=-#
+#-=-=-=--=-=-=-=-=-=-=-=- UTILS -=-=-=-=--=-=-=-=-=-=-=-#
 #########################################################
 
 def exists_username(form, username):    
 	user = Users.query.filter_by(username = username.data).first()
 	if user:
 		raise ValidationError("Username already exists. Please use a different username")
+
+def valid_website(link):
+	if ("https://" in link or "http://" in link) and (".com" in link):
+		return True
+	return False
+
+def code_generator(size=6, chars=string.ascii_uppercase + string.digits):
+	return ''.join(random.choice(chars) for _ in range(size))
+
+#########################################################
+#-=-=-=--=-=-=-=-=-=-=-=- FORMS -=-=-=-=--=-=-=-=-=-=-=-#
+#########################################################
 
 class LoginForm(FlaskForm):
 	username             = StringField("Username", validators=[DataRequired()])
@@ -68,8 +82,8 @@ class LoginForm(FlaskForm):
 
 class SignUpForm(FlaskForm):
 	username             = StringField("Username", validators=[DataRequired(), Length(min=4, max=12), exists_username])
-	password             = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
-	confirm_password     = PasswordField("Confirm password", validators=[DataRequired(), Length(min=8), EqualTo("password")])
+	password             = PasswordField("Password", validators=[DataRequired(), Length(min=4)])
+	confirm_password     = PasswordField("Confirm password", validators=[DataRequired(), Length(min=4), EqualTo("password")])
 	submit               = SubmitField("Submit")
 
 #########################################################
@@ -82,11 +96,15 @@ def home(username):
 	if request.method == "POST":
 		url_received = request.form["nm"]
 		desired_short = request.form["short"]
+  
+		if desired_short == "":
+			desired_short = code_generator()
+			while Urls.query.filter_by(short=desired_short).first():
+				desired_short = code_generator()
 	
 		found_url = Urls.query.filter_by(short=desired_short).first()
   
-		if(found_url):
-			flash("This code is taken", "error")
+		if found_url:
 			return render_template('url_page.html')
 		else:
 			new_url = Urls(current_user.get_id(), url_received, desired_short)
@@ -94,7 +112,7 @@ def home(username):
 			db.session.commit()
 			return redirect(url_for("display_short_url", url=desired_short))
 	else:
-		return render_template('url_page.html')
+		return render_template('url_page.html', title = username)
 
 @app.route('/logout')
 @login_required
@@ -142,14 +160,13 @@ def redirection(short_url):
 	long_url = Urls.query.filter_by(short=short_url).first()
 	if long_url:
 		return redirect(long_url.long)
-	else:
-		return f'<h1>Url doesnt exist</h1>'
+	return render_template("shorturl.html", title = current_user.username)
 
 @app.route('/display/<url>')
 @login_required
 def display_short_url(url):
 	original_url = Urls.query.filter_by(short = url).first()
-	return render_template('shorturl.html', short_url_display=url, original = original_url.long)
+	return render_template('shorturl.html', short_url_display=url, original = original_url.long, title = url)
 
 @app.route('/display_all', methods=['GET', 'POST'])
 @login_required
@@ -157,7 +174,7 @@ def display_all():
 	urls = Urls.query.filter_by(id_user = current_user.get_id()).all()
 	# for url in urls:
 	# 	print(url.short, url.long)
-	return render_template("display_all.html", urls = urls)
+	return render_template("display_all.html", urls = urls, title = "Display All")
 
 if __name__ == '__main__':
     	app.run(port=5000, debug=True)
