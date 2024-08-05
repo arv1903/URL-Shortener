@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import login_user, login_required, logout_user, current_user, LoginManager, UserMixin
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from dotenv import load_dotenv
 import os
 import string
@@ -26,6 +27,7 @@ login_manager.login_view = "login"
 login_manager.login_message_category = "info"
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 @login_manager.user_loader
 def load_user(user_id):
