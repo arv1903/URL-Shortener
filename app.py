@@ -1,14 +1,19 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_login import login_user, login_required, logout_user, current_user, LoginManager, UserMixin
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from dotenv import load_dotenv
+#########################################################
+#-=-=-=--=-=-=-=-=-=-=-= MODULES =-=-=-=--=-=-=-=-=-=-=-#
+#########################################################
+
+from flask              import Flask, render_template, request, redirect, url_for, flash
+from flask_login        import login_user, login_required, logout_user, current_user, LoginManager, UserMixin
+from flask_sqlalchemy   import SQLAlchemy
+from flask_migrate      import Migrate
+from flask_wtf          import FlaskForm
+
+from dotenv             import load_dotenv
 import os
 import string
 import random
 
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms            import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 
 #########################################################
@@ -17,17 +22,18 @@ from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 
 load_dotenv()
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
+app 					     = Flask(__name__)
+app.config['SECRET_KEY'] 		     = os.getenv("SECRET_KEY")
+app.config['SQLALCHEMY_DATABASE_URI'] 	     = os.environ.get('DB_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 login_manager = LoginManager(app)
+db            = SQLAlchemy(app)
+migrate       = Migrate(app, db)
+
 login_manager.login_view = "login"
 login_manager.login_message_category = "info"
 
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -78,15 +84,15 @@ def code_generator(size=6, chars=string.ascii_uppercase + string.digits):
 #########################################################
 
 class LoginForm(FlaskForm):
-	username             = StringField("Username", validators=[DataRequired()])
-	password             = PasswordField("Password", validators=[DataRequired()])
-	submit               = SubmitField("Submit")
+	username         = StringField("Username", validators=[DataRequired()])
+	password         = PasswordField("Password", validators=[DataRequired()])
+	submit           = SubmitField("Submit")
 
 class SignUpForm(FlaskForm):
-	username             = StringField("Username", validators=[DataRequired(), Length(min=4, max=12), exists_username])
-	password             = PasswordField("Password", validators=[DataRequired(), Length(min=4)])
-	confirm_password     = PasswordField("Confirm password", validators=[DataRequired(), Length(min=4), EqualTo("password")])
-	submit               = SubmitField("Submit")
+	username         = StringField("Username", validators=[DataRequired(), Length(min=4, max=12), exists_username])
+	password         = PasswordField("Password", validators=[DataRequired(), Length(min=4)])
+	confirm_password = PasswordField("Confirm password", validators=[DataRequired(), Length(min=4), EqualTo("password")])
+	submit           = SubmitField("Submit")
 
 #########################################################
 #-=-=-=--=-=-=-=-=-=-=-=- ROUTES =-=-=-=--=-=-=-=-=-=-=-#
@@ -119,8 +125,8 @@ def home(username):
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user()
-    return redirect(url_for('login'))
+	logout_user()
+	return redirect(url_for('login'))
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -143,19 +149,19 @@ def login():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    form = SignUpForm()
+	form = SignUpForm()
 
-    if form.validate_on_submit():
-        user = Users(
-            username = form.username.data,
-            password = form.password.data
-        )
-        db.session.add(user)
-        db.session.commit()
-        flash(f'You have successfully created account "{user.username}"')
+	if form.validate_on_submit():
+		user = Users(
+		username = form.username.data,
+		password = form.password.data
+		)
+		db.session.add(user)
+		db.session.commit()
+		flash(f'You have successfully created account "{user.username}"')
 
-        return redirect(url_for('login'))
-    return render_template('signup.html', title='Sign Up', form=form)
+		return redirect(url_for('login'))
+	return render_template('signup.html', title='Sign Up', form=form)
 
 @app.route('/<short_url>')
 def redirection(short_url):
@@ -174,8 +180,6 @@ def display_short_url(url):
 @login_required
 def display_all():
 	urls = Urls.query.filter_by(id_user = current_user.get_id()).all()
-	# for url in urls:
-	# 	print(url.short, url.long)
 	return render_template("display_all.html", urls = urls, title = "Display All")
 
 if __name__ == '__main__':
