@@ -2,7 +2,7 @@
 #-=-=-=--=-=-=-=-=-=-=-= MODULES =-=-=-=--=-=-=-=-=-=-=-#
 #########################################################
 
-from flask              import Flask, render_template, request, redirect, url_for, flash
+from flask              import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_login        import login_user, login_required, logout_user, current_user, LoginManager, UserMixin
 from flask_sqlalchemy   import SQLAlchemy
 from flask_migrate      import Migrate
@@ -14,7 +14,7 @@ import string
 import random
 
 from wtforms            import StringField, SubmitField, PasswordField
-from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, URL
 
 #########################################################
 #-=-=-=--=-=-=-=-=-= INITIALIZATION -=-=--=-=-=-=-=-=-=-#
@@ -93,7 +93,7 @@ class SignUpForm(FlaskForm):
 	password         = PasswordField("Password", validators=[DataRequired(), Length(min=4)])
 	confirm_password = PasswordField("Confirm password", validators=[DataRequired(), Length(min=4), EqualTo("password")])
 	submit           = SubmitField("Submit")
-
+ 
 #########################################################
 #-=-=-=--=-=-=-=-=-=-=-=- ROUTES =-=-=-=--=-=-=-=-=-=-=-#
 #########################################################
@@ -104,23 +104,26 @@ def home(username):
 	if request.method == "POST":
 		url_received = request.form["nm"]
 		desired_short = request.form["short"]
-  
+
+        
 		if desired_short == "":
 			desired_short = code_generator()
 			while Urls.query.filter_by(short=desired_short).first():
 				desired_short = code_generator()
-	
+
 		found_url = Urls.query.filter_by(short=desired_short).first()
-  
+
 		if found_url:
-			return render_template('url_page.html')
+			flash('The custom back-half already exists. Please choose a different one.', 'error')
+			return redirect(url_for('home', username=username))
 		else:
 			new_url = Urls(current_user.get_id(), url_received, desired_short)
 			db.session.add(new_url)
 			db.session.commit()
 			return redirect(url_for("display_short_url", url=desired_short))
 	else:
-		return render_template('url_page.html', title = username)
+		return render_template('url_page.html', title=username)
+
 
 @app.route('/logout')
 @login_required

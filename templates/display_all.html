@@ -1,18 +1,4 @@
 {% extends "base.html" %}
-<script>
-	function copyToClipboard(text) {
-		navigator.clipboard.writeText("https://127.0.0.1:5000/" + text)
-		.then(function() {
-			alert('Copied to clipboard');
-		})
-		.catch(function(err) {
-			console.error('Unable to copy', err);
-			alert('Failed to copy to clipboard.');
-		});
-	}
-</script>
-
-
 {% block content %}
 <div class="url-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin: auto;">
         {% for url in urls %}           
