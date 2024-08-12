@@ -182,7 +182,8 @@ def display_short_url(url):
 @app.route('/display_all', methods=['GET', 'POST'])
 @login_required
 def display_all():
-	urls = Urls.query.filter_by(id_user = current_user.get_id()).all()
+	page = request.args.get('page', 1, type=int)
+	urls = Urls.query.filter_by(id_user = current_user.get_id()).paginate(page = page, per_page = 4)
 	return render_template("display_all.html", urls = urls, title = "Display All")
 
 if __name__ == '__main__':

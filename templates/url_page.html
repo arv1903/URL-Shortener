@@ -1,33 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="#" , method="post" class="box" autocomplete="off">
+<form action="#" , method="post" class="box" autocomplete="off" onsubmit="return validateForm()">
 	<div class="wrapper" style="text-align: center;">
 		<h2 style="color : white">URL Shortener</h2>
 	</div>
 	<hr style="border-top: 2px solid white; margin-top: 20px; margin-bottom: 20px;">
 	<div class="form-group">
-		<input placeholder="Destination" class="form-style" type="text" name="nm" id="url"
-			pattern="https?://.*\..*"
-			title='Please submit a valid website address that includes "https://" or "http://" and "."'
-			required>
+		<input placeholder="Destination" class = "form-style" type="text" name="nm" id="url" pattern="https?://.*\..*" title='Please submit a valid website address that includes "https://" or "http://" and "."' required>
 		<i class="input-icon bi bi-link-45deg"></i>
 	</div>
 	<br>
 	<div class="form-group">
-		<input placeholder="Custom back-half" class="form-style" type="text" name="short" id="short"
-			minlength="6">
+		<input placeholder="Custom back-half" class = "form-style" type="text" name="short" id="short" minlength="3" maxlength="8">
 		<i class="input-icon bi bi-regex"></i>
 	</div>
 	{% with messages = get_flashed_messages(with_categories=true) %}
-	{% if messages %}
-	{% for category, message in messages %}
-	<br>
-	<div class="alert alert-{{ category }}">
-		{{ message }}
-	</div>
-	{% endfor %}
-	{% endif %}
+		{% if messages %}
+			{% for category, message in messages %}
+				<br>
+				<div class="alert alert-{{ category }}">
+					{{ message }}
+				</div>
+			{% endfor %}
+		{% endif %}
 	{% endwith %}
 	<br>
 	<input class="submit-btn" type="submit"></input>
