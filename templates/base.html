@@ -19,6 +19,9 @@
 	<title>Website</title>
 	{% endif %}
 	<style>
+		@import "https://unpkg.com/open-props";
+		@import "https://unpkg.com/open-props/normalize.min.css";
+
 		* {
 			font-family: 'Poppins';
 			font-size: 22px;
@@ -34,7 +37,7 @@
 
 		.bgimage {
 			height: 100vh;
-			background: url('../static/images/background.jpg');
+			background: url('../static/images/background2.jpg');
 			background-size: cover;
 			position: relative;
 		}
@@ -85,15 +88,14 @@
 			top: 50%;
 			left: 50%;
 			width: 400px;
-			background-color: rgba(255, 255, 255, 0.13);
+			background-color: rgba(0, 0, 0, 0.2);
 			transform: translate(-50%, -50%);
 			border-radius: 10px;
 			backdrop-filter: blur(10px);
 			border: 2px solid rgba(255, 255, 255, 0.1);
-			box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+			box-shadow: 0 0 100px rgb(15, 93, 157, 0.8);
 			padding: 50px 35px;
 		}
-
 
 		.url-container {
 			display: flex;
@@ -103,6 +105,7 @@
 			height: 90vh;
 			overflow: auto;
 			width: 100vw;
+			-webkit-mask-image: linear-gradient(to bottom, #0000, #000, #000, #0000);
 		}
 
 		.url-box {
@@ -112,11 +115,11 @@
 			align-items: center;
 			height: 20vh;
 			width: 80vw;
-			background-color: rgba(255, 255, 255, 0.75);
+			background-color: rgba(19, 19, 18, 1);
 			border-radius: 10px;
 			justify-content: left;
 			text-align: center;
-			box-shadow: 0px 8px 10px rgb(46, 46, 40);
+			box-shadow: 5px 5px 10px rgba(0, 2, 51, 0.7), 10px 10px 10px rgb(15, 93, 157, 0.8);
 			transition: width 2s, height 2s;
 		}
 
@@ -127,6 +130,23 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
+		}
+
+		.x {
+			filter: grayscale(1);
+			border: none;
+			background: none;
+			position: absolute;
+			top: 15px;
+			right: 10px;
+			transition: ease filter, transform 0.3s;
+			cursor: pointer;
+			transform-origin: center;
+
+			&:hover {
+				filter: grayscale(0);
+				transform: scale(1.1);
+			}
 		}
 
 		.box .container {
@@ -337,48 +357,6 @@
 			border: 0;
 			box-shadow: 0 5px 30px 0 rgb(0 0 0 / 10%);
 			animation: fadeIn 1s ease both;
-
-			&::backdrop {
-				animation: fadeIn 1s ease both;
-				background: rgb(255 255 255 / 40%);
-				z-index: 2;
-				backdrop-filter: blur(20px);
-			}
-
-			.x {
-				filter: grayscale(1);
-				border: none;
-				background: none;
-				position: absolute;
-				top: 15px;
-				right: 10px;
-				transition: ease filter, transform 0.3s;
-				cursor: pointer;
-				transform-origin: center;
-
-				&:hover {
-					filter: grayscale(0);
-					transform: scale(1.1);
-				}
-			}
-
-			h2 {
-				font-weight: 600;
-				font-size: 2rem;
-				padding-bottom: 1rem;
-			}
-
-			p {
-				font-size: 1rem;
-				line-height: 1.3rem;
-				padding: 0.5rem 0;
-
-				a {
-					&:visited {
-						color: rgb(29, 92, 255);
-					}
-				}
-			}
 		}
 	</style>
 </head>

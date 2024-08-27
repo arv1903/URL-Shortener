@@ -20,7 +20,7 @@
 {% extends "base.html" %}
 {% block content %}
 <dialog id="dialog">
-        <img src="https://chart.googleapis.com/chart?cht=qr&chl=Hello+World&chs=160x160&chld=L|0"
+        <img src="" alt="QR Code"
                 class="qr-code img-thumbnail img-responsive" id = "image"/>
         <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
 </dialog>
@@ -32,7 +32,7 @@
                                         style="width: 100px; height: 100px; filter: greyscale(100%);"></a>
                         <h1>{{ url.short }}</h1>
                         <button onclick="copyToClipboard('{{ short_url_display }}')"><i class="bi bi-copy"></i></button>
-                        <button class="primary" onclick="window.dialog.showModal(); generateQRCode('{{url.long}}')"><i class="bi bi-qr-code-scan"></i></button>
+                        <button class="primary" onclick="generateQRCode('{{url.long}}'); window.dialog.showModal();"><i class="bi bi-qr-code-scan"></i></button>
                 </div>
         {% endfor %}
 </div>
