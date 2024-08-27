@@ -1,22 +1,39 @@
+<script>
+        function copyToClipboard(text) {
+                navigator.clipboard.writeText("https://mvn.my.id/" + text)
+                        .then(function () {
+                                alert('Copied to clipboard');
+                        })
+                        .catch(function (err) {
+                                console.error('Unable to copy', err);
+                                alert('Failed to copy to clipboard.');
+                        });
+        }
+
+        function generateQRCode(long) {
+                console.log(long);
+                var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + long + '&amp;size=50x50';
+                $('#image').attr('src', url);
+        }
+</script>
+
 {% extends "base.html" %}
 {% block content %}
-<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: auto;">
-        <div class="url-container" style="display: flex; flex-direction: row; justify-content: center; align-items: center; margin: auto;">
-                {% for url in urls.items %}           
-                <div class="url-box">
-                        <a href= "{{ url.long }}" target = "_blank"><img alt="Logo" src="https://www.google.com/s2/favicons?domain={{ url.long }}&amp;sz=256" style="width: 100px; height: 100px;"></a>
-                        <a href= "{{ url.long }}"><h3>mvn.my.id/{{url.short}}</h3></a>
+<dialog id="dialog">
+        <img src="https://chart.googleapis.com/chart?cht=qr&chl=Hello+World&chs=160x160&chld=L|0"
+                class="qr-code img-thumbnail img-responsive" id = "image"/>
+        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+</dialog>
+<div class="url-container"">
+        {% for url in urls %}           
+                <div class="url-box"">
+                        <a href="{{ url.long }}" target="_blank" style="padding: 20px;"><img alt="Logo"
+                                        src="https://www.google.com/s2/favicons?domain={{ url.long }}&amp;sz=256"
+                                        style="width: 100px; height: 100px; filter: greyscale(100%);"></a>
+                        <h1>{{ url.short }}</h1>
+                        <button onclick="copyToClipboard('{{ short_url_display }}')"><i class="bi bi-copy"></i></button>
+                        <button class="primary" onclick="window.dialog.showModal(); generateQRCode('{{url.long}}')"><i class="bi bi-qr-code-scan"></i></button>
                 </div>
-                {% endfor %}
-        </div>
-        <div class="pagination-box">
-                {% for page_number in urls.iter_pages() %}
-                    {% if page_number == urls.page %}
-                        <a href="{{ url_for('display_all', page = page_number) }}" style = "color: red;" class="number"><h3>{{ page_number }}</h3></a>
-                    {% else %}
-                        <a href="{{ url_for('display_all', page = page_number) }}" style = "color: black" class = "number"><h3>{{ page_number }}</h3></a>
-                    {% endif %}
-                {% endfor %}
-        </div>
+        {% endfor %}
 </div>
 {% endblock %}
