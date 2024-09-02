@@ -13,6 +13,9 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 	<link rel="icon" type="image/x-icon" href="../static/images/logo.ico">
 	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+		integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
 	{% if title %}
 	<title>{{ title }} - Website</title>
 	{% else %}
@@ -37,7 +40,7 @@
 
 		.bgimage {
 			height: 100vh;
-			background: url('../static/images/background2.jpg');
+			background: url('../static/images/background3.jpg');
 			background-size: cover;
 			position: relative;
 		}
@@ -88,12 +91,12 @@
 			top: 50%;
 			left: 50%;
 			width: 400px;
-			background-color: rgba(0, 0, 0, 0.2);
+			background-color: rgba(0, 0, 0, 0.3);
 			transform: translate(-50%, -50%);
 			border-radius: 10px;
 			backdrop-filter: blur(10px);
 			border: 2px solid rgba(255, 255, 255, 0.1);
-			box-shadow: 0 0 100px rgb(15, 93, 157, 0.8);
+			box-shadow: 0 0 100px rgba(109, 1, 159, 0.8);
 			padding: 50px 35px;
 		}
 
@@ -110,6 +113,7 @@
 
 		.url-box {
 			margin-bottom: 4vh;
+			padding: 0 2vw 0 2vw;
 			display: flex;
 			flex-direction: row;
 			align-items: center;
@@ -117,9 +121,9 @@
 			width: 80vw;
 			background-color: rgba(19, 19, 18, 1);
 			border-radius: 10px;
-			justify-content: left;
+			justify-content: space-between;
 			text-align: center;
-			box-shadow: 5px 5px 10px rgba(0, 2, 51, 0.7), 10px 10px 10px rgb(15, 93, 157, 0.8);
+			box-shadow: 5px 5px 10px rgba(22, 4, 43, 0.7), 10px 10px 10px rgba(109, 1, 159, 0.8);
 			transition: width 2s, height 2s;
 		}
 
@@ -301,6 +305,24 @@
 			transition: all 450ms ease-in-out;
 		}
 
+		.share-btn {
+			color: white;
+			border: none;
+			border-radius: 3em;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			transition: all 0.5 s ease;
+			background: transparent;
+			cursor: pointer;
+			box-shadow: 0 10px 20px -10px rgb(15, 93, 157 / 100%);
+
+			&:hover {
+				box-shadow: 0 20px 20px -10px rgb(15, 93, 157 / 100%);
+				transform: scale(1.2);
+			}
+		}
+
 		.sparkle {
 			fill: #AAAAAA;
 			transition: all 800ms ease;
@@ -329,34 +351,111 @@
 			transform: scale(1.2);
 		}
 
-		.pagination-box {
-			margin: 5vh;
-			padding: 0px 5vw 0px 5vw;
-			max-width: 90vw;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-
-			background-color: rgba(255, 255, 255, 0.4);
-			border-radius: 10px;
-			backdrop-filter: blur(10px);
-			border: 2px solid rgba(255, 255, 255, 0.1);
-			box-shadow: 0 0 40px rgba(255, 255, 255, 0.6);
-		}
-
 		.number {
 			margin: 10px;
 		}
 
 		dialog {
 			padding: 1rem 3rem;
-			background: white;
-			max-width: 400px;
+			background-color: rgba(0, 0, 0, 0.3);
 			padding-top: 2rem;
 			border-radius: 20px;
 			border: 0;
 			box-shadow: 0 5px 30px 0 rgb(0 0 0 / 10%);
 			animation: fadeIn 1s ease both;
+
+			&::backdrop {
+				animation: fadeIn 1s ease both;
+				background: rgb(0 0 0 / 20%);
+				z-index: 2;
+				backdrop-filter: blur(20px);
+			}
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+
+			to {
+				opacity: 1;
+			}
+		}
+
+		#shr {
+			width: 270px;
+			height: 60px;
+			border: none;
+			background: transparent;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: relative;
+		}
+
+		#shr::before,
+		#shr::after {
+			content: "";
+			position: absolute;
+			width: 0;
+			height: 3px;
+			background-color: white;
+			transition: width 1s ease-in-out;
+		}
+
+		#shr:before {
+
+			top: 0;
+			left: 0;
+		}
+
+		#shr:after {
+
+			bottom: 0;
+			right: 0;
+		}
+
+		#shr:hover:before,
+		#shr:hover:after {
+			width: 100%;
+		}
+
+		.letters {
+			width: 50px;
+			height: 50px;
+			perspective: 600px;
+		}
+
+		.card {
+			box-sizing: border-box;
+			background-color: transparent;
+			width: 100%;
+			height: 100%;
+			position: relative;
+			transition: transform 1s ease-in-out;
+			transform-style: preserve-3d;
+		}
+
+		.card_face {
+			color: white;
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			backface-visibility: hidden;
+			font-size: 28px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			font-weight: 600;
+		}
+
+		.back {
+			transform: rotateY(180deg);
+		}
+
+		#shr:hover .card {
+			transform: rotateY(180deg);
 		}
 	</style>
 </head>
