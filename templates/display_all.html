@@ -11,11 +11,9 @@
         }
 
         function generateQRCode(long, short) {
-                console.log(long, short);
-
                 var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + long + '&amp;size=50x50', copyLink = 'copyToClipboard("'+ short + '")';
                 $('#image').attr('src', url);
-                console.log(copyLink)
+                
                 $('#copy').attr('onclick', copyLink);
                 $('#whatsapp').attr('href', "whatsapp://send?text=https://mvn.my.id/" + "Visit my shortened version of " + long + " : " + "mvn.my.id/" + short);
                 $('#twitter').attr('href', "http://twitter.com/share?text=" + "Visit my shortened version of " + long + " : " + "mvn.my.id/" + short);
@@ -83,7 +81,7 @@
                         <a href=" {{ url.long }}" target="_blank" style="padding: 20px;"><img alt="Logo"
                         src="https://www.google.com/s2/favicons?domain={{ url.long }}&amp;sz=256"
                         style="width: 100px; height: 100px; border-radius: 10px;"></a>
-                <h1>{{ url.short }}</h1>
+                <h1>{{ func(url.long) }}</h1>
                 <button class="share-btn" onclick="generateQRCode('{{url.long}}', '{{url.short}}'); window.dialog.showModal();"><i
                                 class="fa-solid fa-share-from-square fa-xl"></i></button>
         </div>

@@ -17,8 +17,7 @@
 	<div class="box" style="min-height: 50%; justify-content: center; align-items: center; margin: auto; text-align: center;">
 		<a href= "{{ original }}" target = "_blank"><img alt="Logo" src="https://www.google.com/s2/favicons?domain={{ original }}&amp;sz=256" style="width: 200px; height: 200px;"></a>
 		<hr style="border-top : 1px solid white;">
-
-		<h4 style="color: white">{{ original }}</h4>
+		<h4 style="color: white; font-size: 40px; text-transform: capitalize" id = "WebName">{{ func(original) }}</h4>
 		<br>
 		<button onclick="copyToClipboard('{{ short_url_display }}')" class = "submit-btn">Copy link</button>
 	</div>

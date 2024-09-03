@@ -35,18 +35,19 @@
 		body {
 			color: white;
 			min-height: 100vh;
-			min-width: 98vh;
+			min-width: 98vw;
 		}
 
 		.bgimage {
 			height: 100vh;
+			width: 100vw;
 			background: url('../static/images/background3.jpg');
+			/* background-color: red; */
 			background-size: cover;
-			position: relative;
 		}
 
 		.navbar {
-			font-size: 20px;
+			font-size: 20vw;
 			backdrop-filter: blur(1px) brightness(1);
 			-webkit-backdrop-filter: blur(8px) brightness(1.2);
 			text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
@@ -90,7 +91,7 @@
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			width: 400px;
+			width: 21vw;
 			background-color: rgba(0, 0, 0, 0.3);
 			transform: translate(-50%, -50%);
 			border-radius: 10px;
@@ -109,6 +110,7 @@
 			overflow: auto;
 			width: 100vw;
 			-webkit-mask-image: linear-gradient(to bottom, #0000, #000, #000, #0000);
+			scrollbar-color: #000 #000;
 		}
 
 		.url-box {
@@ -119,21 +121,12 @@
 			align-items: center;
 			height: 20vh;
 			width: 80vw;
-			background-color: rgba(19, 19, 18, 1);
+			background-color: rgba(0, 0, 0, 1);
 			border-radius: 10px;
 			justify-content: space-between;
 			text-align: center;
 			box-shadow: 5px 5px 10px rgba(22, 4, 43, 0.7), 10px 10px 10px rgba(109, 1, 159, 0.8);
 			transition: width 2s, height 2s;
-		}
-
-		.url-image {
-			border-radius: 50%;
-			background-color: white;
-			padding: 20px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
 		}
 
 		.x {
@@ -301,6 +294,7 @@
 			align-items: center;
 			gap: 12px;
 			background: transparent;
+			/* background-color: #000; */
 			cursor: pointer;
 			transition: all 450ms ease-in-out;
 		}
@@ -312,7 +306,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			transition: all 0.5 s ease;
+			transition: all 0.5s ease;
 			background: transparent;
 			cursor: pointer;
 			box-shadow: 0 10px 20px -10px rgb(15, 93, 157 / 100%);

@@ -5,7 +5,7 @@
 	<form method="POST" action="" autocomplete="off">
 		{{ form.hidden_tag() }}
 		<div class="box">
-			<h4 class="mb-4 pb-3">Log In</h4>
+			<h4 class="mb-4 pb-3">Login</h4>
 
 			<div class="form-group">
 				{% if form.username.errors%}
@@ -33,6 +33,7 @@
 				{{ form.password(autocomplete="off", placeholder = "Password", class = "form-style") }}
 				{% endif %}
 				<i class="input-icon bi bi-key"></i>
+				
 			</div>
 			<br>
 			{{ form.submit(class="submit-btn") }}

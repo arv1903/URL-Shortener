@@ -66,6 +66,19 @@ with app.app_context():
 #-=-=-=--=-=-=-=-=-=-=-=- UTILS -=-=-=-=--=-=-=-=-=-=-=-#
 #########################################################
 
+def getDomainName(text):
+        ret = ""
+        print(len(text))
+        for i in range(len(text) - 1, -1, -1):
+                if(text[i] == '.'):
+                        for j in range(i - 1, -1, -1):
+                                if text[j] == '.' or text[j] == '/':
+                                        break
+                                ret += text[j]
+                        break
+        print(text, 1)
+        return ret[::-1].capitalize()
+
 def exists_username(form, username):    
 	user = Users.query.filter_by(username = username.data).first()
 	if user:
@@ -156,8 +169,8 @@ def signup():
 
 	if form.validate_on_submit():
 		user = Users(
-		username = form.username.data,
-		password = form.password.data
+			username = form.username.data,
+			password = form.password.data
 		)
 		db.session.add(user)
 		db.session.commit()
@@ -177,13 +190,13 @@ def redirection(short_url):
 @login_required
 def display_short_url(url):
 	original_url = Urls.query.filter_by(short = url).first()
-	return render_template('shorturl.html', short_url_display=url, original = original_url.long, title = url)
+	return render_template('shorturl.html', short_url_display=url, original = original_url.long, title = url, func = getDomainName)
 
 @app.route('/display_all', methods=['GET', 'POST'])
 @login_required
 def display_all():
 	urls = Urls.query.filter_by(id_user = current_user.get_id()).all()
-	return render_template("display_all.html", urls = urls, title = "Display All")
+	return render_template("display_all.html", urls = urls, title = "Display All", func = getDomainName)
 
 if __name__ == '__main__':
     	app.run(port=5000, debug=True)
