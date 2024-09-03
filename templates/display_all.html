@@ -1,3 +1,4 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
         function copyToClipboard(text) {
                 navigator.clipboard.writeText("https://mvn.my.id/" + text)
@@ -11,29 +12,49 @@
         }
 
         function generateQRCode(long, short) {
-                var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + long + '&amp;size=50x50', copyLink = 'copyToClipboard("'+ short + '")';
+                var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + long + '&amp;size=50x50', copyLink = 'copyToClipboard("' + short + '")';
                 $('#image').attr('src', url);
-                
+
                 $('#copy').attr('onclick', copyLink);
                 $('#whatsapp').attr('href', "whatsapp://send?text=" + "Visit my shortened version of " + long + " : " + "mvn.my.id/" + short);
                 $('#twitter').attr('href', "http://twitter.com/share?text=" + "Visit my shortened version of " + long + " : " + "mvn.my.id/" + short);
                 $('#line').attr('href', "https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fline.me%2Fen&text=" + "Visit my shortened version of " + long + " : " + "mvn.my.id/" + short);
                 $('#threads').attr('href', "https://threads.net/intent/post?text=" + "Visit my shortened version of " + long + " : " + "mvn.my.id/" + short);
-        }       
+        }
+
+        function filterURLs() {
+                let input = document.getElementById('search');
+                let filter = input.value.toUpperCase();
+                let urlContainer = document.getElementById("url-container");
+                let urlBoxes = urlContainer.getElementsByClassName('url-box');
+
+                for (let i = 0; i < urlBoxes.length; i++) {
+                        let h1 = urlBoxes[i].getElementsByTagName("h1")[0];
+                        if (h1) {
+                                let txtValue = h1.textContent || h1.innerText;
+                                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                        urlBoxes[i].style.display = "";
+                                } else {
+                                        urlBoxes[i].style.display = "none";
+                                }
+                        }
+                }
+        }
 </script>
 
 {% extends "base.html" %}
 {% block content %}
 <dialog id="dialog">
-        <img src="" alt="QR Code" class="qr-code img-thumbnail img-responsive" id="image"/>
+        <img src="" alt="QR Code" class="qr-code img-thumbnail img-responsive" id="image" />
         <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
         <br>
-        <button id = "shr">
+        <button id="shr">
                 <div class="letters">
                         <div class="card">
                                 <div class="card_face front">S</div>
                                 <div class="card_face back">
-                                        <a onclick = "copyToClipboard('{{short_urL_display}}')" id = "copy"><i class="bi bi-copy" style = "color : white"></i></a> 
+                                        <a onclick="copyToClipboard('{{short_urL_display}}')" id="copy"><i
+                                                        class="bi bi-copy" style="color : white"></i></a>
                                 </div>
                         </div>
                 </div>
@@ -42,7 +63,8 @@
                         <div class="card">
                                 <div class="card_face front">H</div>
                                 <div class="card_face back">
-                                        <a target = "_blank" href="" id = "whatsapp"><i class="bi bi-whatsapp" style = "color : white"></i></a>
+                                        <a target="_blank" href="" id="whatsapp"><i class="bi bi-whatsapp"
+                                                        style="color : white"></i></a>
                                 </div>
                         </div>
                 </div>
@@ -51,7 +73,8 @@
                         <div class="card">
                                 <div class="card_face front">A</div>
                                 <div class="card_face back">
-                                        <a target = "_blank" href="" id = "twitter"><i class="bi bi-twitter-x" style = "color : white"></i></a>
+                                        <a target="_blank" href="" id="twitter"><i class="bi bi-twitter-x"
+                                                        style="color : white"></i></a>
                                 </div>
                         </div>
                 </div>
@@ -60,7 +83,8 @@
                         <div class="card">
                                 <div class="card_face front">R</div>
                                 <div class="card_face back">
-                                        <a target = "_blank" href="" id = "line"><i class="bi bi-line" style="color:white"></i></a>
+                                        <a target="_blank" href="" id="line"><i class="bi bi-line"
+                                                        style="color:white"></i></a>
                                 </div>
                         </div>
                 </div>
@@ -69,20 +93,28 @@
                         <div class="card">
                                 <div class="card_face front">E</div>
                                 <div class="card_face back">
-                                        <a target = "_blank" href="" id = "threads"><i class="bi bi-threads" style = "color : white"></i></a>
+                                        <a target="_blank" href="" id="threads"><i class="bi bi-threads"
+                                                        style="color : white"></i></a>
                                 </div>
                         </div>
                 </div>
         </button>
 </dialog>
 <div class="url-container" id="url-container">
+        <br>
+        <div class="search-box">
+                <button class="btn-search"><i class="fas fa-search"></i></button>
+                <input type="text" id = "search" class = "input-search" placeholder="Search URLs" onkeyup="filterURLs()">
+        </div>
+        <br>
         {% for url in urls %}
         <div class="url-box">
-                        <a href=" {{ url.long }}" target="_blank" style="padding: 20px;"><img alt="Logo"
-                        src="https://www.google.com/s2/favicons?domain={{ url.long }}&amp;sz=256"
-                        style="width: 100px; height: 100px; border-radius: 10px;"></a>
+                <a href=" {{ url.long }}" target="_blank" style="padding: 20px;"><img alt="Logo"
+                                src="https://www.google.com/s2/favicons?domain={{ url.long }}&amp;sz=256"
+                                style="width: 100px; height: 100px; border-radius: 10px;"></a>
                 <h1>{{ func(url.long) }}</h1>
-                <button class="share-btn" onclick="generateQRCode('{{url.long}}', '{{url.short}}'); window.dialog.showModal();"><i
+                <button class="share-btn"
+                        onclick="generateQRCode('{{url.long}}', '{{url.short}}'); window.dialog.showModal();"><i
                                 class="fa-solid fa-share-from-square fa-xl"></i></button>
         </div>
         {% endfor %}
