@@ -104,7 +104,7 @@
         <br>
         <div class="search-box">
                 <button class="btn-search"><i class="fas fa-search"></i></button>
-                <input type="text" id = "search" class = "input-search" placeholder="Search URLs" onkeyup="filterURLs()">
+                <input type="text" id = "search" class = "input-search" placeholder="Search website names" onkeyup="filterURLs()">
         </div>
         <br>
         {% for url in urls %}
@@ -112,7 +112,7 @@
                 <a href=" {{ url.long }}" target="_blank" style="padding: 20px;"><img alt="Logo"
                                 src="https://www.google.com/s2/favicons?domain={{ url.long }}&amp;sz=256"
                                 style="width: 100px; height: 100px; border-radius: 10px;"></a>
-                <h1>{{ func(url.long) }}</h1>
+                <a href="{{ url_for('edit_url', id = url.id) }}" style="color: white; text-decoration: none;"><h1>{{ func(url.long) }}</h1></a>
                 <button class="share-btn"
                         onclick="generateQRCode('{{url.long}}', '{{url.short}}'); window.dialog.showModal();"><i
                                 class="fa-solid fa-share-from-square fa-xl"></i></button>

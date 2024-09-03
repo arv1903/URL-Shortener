@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="">
+	<form method="POST" action="" autocomplete="off">
+		{{ form.hidden_tag() }}
+		<div class="box">
+			<h4 class="mb-4 pb-3">Edit URL</h4>
+
+			<div class="form-group">
+                                {% if form.long.errors%}
+                                {{ form.long(autocomplete="off", placeholder = "Destination", class = "form-style") }}
+                                <div class="">
+                                        {% for error in form.long.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ form.long(autocomplete="off", placeholder = "Destination", class = "form-style") }}
+                                {% endif %}
+				<i class="input-icon bi bi-link-45deg"></i>
+			</div>
+			<br>
+			<div class="form-group">
+                                {% if form.short.errors%}
+                                {{ form.short(autocomplete="off", placeholder = "Custom back-half", class = "form-style") }}
+                                <div class="">
+                                        {% for error in form.short.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ form.short(autocomplete="off", placeholder = "Custom back-half", class = "form-style") }}
+                                {% endif %}
+				<i class="input-icon bi bi-regex"></i>
+			</div>
+			<br>
+			{{ form.submit(class="submit-btn") }}
+		</div>
+
+
+
+	</form>
+</div>
+{% endblock %}

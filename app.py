@@ -68,7 +68,6 @@ with app.app_context():
 
 def getDomainName(text):
         ret = ""
-        print(len(text))
         for i in range(len(text) - 1, -1, -1):
                 if(text[i] == '.'):
                         for j in range(i - 1, -1, -1):
@@ -76,7 +75,6 @@ def getDomainName(text):
                                         break
                                 ret += text[j]
                         break
-        print(text, 1)
         return ret[::-1].capitalize()
 
 def exists_username(form, username):    
@@ -84,8 +82,8 @@ def exists_username(form, username):
 	if user:
 		raise ValidationError("Username already exists. Please use a different username")
 
-def valid_website(link):
-	if ("https://" in link or "http://" in link) and (".com" in link):
+def valid_website(form, link):
+	if ("https://" in link.data or "http://" in link.data) and (".com" in link.data):
 		return True
 	return False
 
@@ -105,6 +103,11 @@ class SignUpForm(FlaskForm):
 	username         = StringField("Username", validators=[DataRequired(), Length(min=4, max=12), exists_username])
 	password         = PasswordField("Password", validators=[DataRequired(), Length(min=4)])
 	confirm_password = PasswordField("Confirm password", validators=[DataRequired(), Length(min=4), EqualTo("password")])
+	submit           = SubmitField("Submit")
+ 
+class EditURLForm(FlaskForm):
+	long             = StringField("Destination", validators = [DataRequired(), valid_website])
+	short            = StringField("Custom back-half", validators = [Length(min=3, max=6)])
 	submit           = SubmitField("Submit")
  
 #########################################################
@@ -197,6 +200,26 @@ def display_short_url(url):
 def display_all():
 	urls = Urls.query.filter_by(id_user = current_user.get_id()).all()
 	return render_template("display_all.html", urls = urls, title = "Display All", func = getDomainName)
+
+@app.route('/edit_url/<string:id>', methods=['GET', 'POST'])
+@login_required
+def edit_url(id):
+	form = EditURLForm()
+
+	url = Urls.query.get(id)
+
+	if form.validate_on_submit():
+		url.short = form.short.data
+		url.long  = form.long.data
+		db.session.commit()
+		urls = Urls.query.filter_by(id_user = current_user.get_id()).all()
+		return render_template("display_all.html", urls = urls, title = "Display All", func = getDomainName)
+
+	elif request.method == 'GET':
+		form.long.data = url.long
+		form.short.data = url.short
+
+	return render_template('edit_url.html', title='Edit Link', form = form)
 
 if __name__ == '__main__':
     	app.run(port=5000, debug=True)
