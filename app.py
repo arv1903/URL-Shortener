@@ -87,7 +87,7 @@ def valid_website(form, link):
 		return True
 	return False
 
-def code_generator(size=6, chars=string.ascii_uppercase + string.digits):
+def code_generator(size=6, chars=string.ascii_uppercase + string.ascii_lowercase + string.digits):
 	return ''.join(random.choice(chars) for _ in range(size))
 
 #########################################################
@@ -120,12 +120,6 @@ def home(username):
 	if request.method == "POST":
 		url_received = request.form["nm"]
 		desired_short = request.form["short"]
-
-        
-		if desired_short == "":
-			desired_short = code_generator()
-			while Urls.query.filter_by(short=desired_short).first():
-				desired_short = code_generator()
 
 		found_url = Urls.query.filter_by(short=desired_short).first()
 
@@ -199,6 +193,8 @@ def display_short_url(url):
 @login_required
 def display_all():
 	urls = Urls.query.filter_by(id_user = current_user.get_id()).all()
+	# for url in urls:
+        # 	print(f"{url.long}, getDomainName(url.long)}")
 	return render_template("display_all.html", urls = urls, title = "Display All", func = getDomainName)
 
 @app.route('/edit_url/<string:id>', methods=['GET', 'POST'])
@@ -211,7 +207,7 @@ def edit_url(id):
 	if form.validate_on_submit():
 		url.short = form.short.data
 		url.long  = form.long.data
-		db.session.commit()
+		db.session.commit()	
 		urls = Urls.query.filter_by(id_user = current_user.get_id()).all()
 		return render_template("display_all.html", urls = urls, title = "Display All", func = getDomainName)
 

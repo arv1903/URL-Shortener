@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-
 {% block content %}
+
 <form action="#" , method="post" class="box" autocomplete="off">
 	<div class="wrapper" style="text-align: center;">
 		<h2 style="color : white">Link Shortener</h2>
@@ -12,8 +12,9 @@
 	</div>
 	<br>
 	<div class="form-group">
-		<input placeholder="Custom back-half" class = "form-style" type="text" name="short" id="short" minlength="3" maxlength="8">
+		<input placeholder="Custom back-half" class = "form-style" type="text" name="short" id="short" minlength="3" maxlength="8" required>
 		<i class="input-icon bi bi-regex"></i>
+		<a onclick="generateCode()" href="#""><i class="shuffle-icon bi bi-shuffle"></i></a>
 	</div>
 	{% with messages = get_flashed_messages(with_categories=true) %}
 		{% if messages %}

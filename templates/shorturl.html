@@ -1,15 +1,3 @@
-<script>
-	function copyToClipboard(text) {
-		navigator.clipboard.writeText("https://mvn.my.id/" + text)
-		.then(function() {
-			alert('Copied to clipboard');
-		})
-		.catch(function(err) {
-			console.error('Unable to copy', err);
-			alert('Failed to copy to clipboard.');
-		});
-	}
-</script>
 {% extends "base.html" %}
 {% block title %}Short URL{% endblock %}
 

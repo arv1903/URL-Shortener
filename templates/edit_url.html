@@ -2,44 +2,35 @@
 {% block content %}
 
 <div class="">
-	<form method="POST" action="" autocomplete="off">
-		{{ form.hidden_tag() }}
-		<div class="box">
-			<h4 class="mb-4 pb-3">Edit URL</h4>
+        <form method="POST" action="" autocomplete="off">
+                {{ form.hidden_tag() }}
+                <div class="box">
+                        <h4 class="mb-4 pb-3">Edit URL</h4>
 
-			<div class="form-group">
-                                {% if form.long.errors%}
-                                {{ form.long(autocomplete="off", placeholder = "Destination", class = "form-style") }}
-                                <div class="">
-                                        {% for error in form.long.errors %}
-                                        <span>{{ error }}</span>
-                                        {% endfor %}
-                                </div>
-                                {% else %}
-                                {{ form.long(autocomplete="off", placeholder = "Destination", class = "form-style") }}
-                                {% endif %}
-				<i class="input-icon bi bi-link-45deg"></i>
-			</div>
-			<br>
-			<div class="form-group">
-                                {% if form.short.errors%}
-                                {{ form.short(autocomplete="off", placeholder = "Custom back-half", class = "form-style") }}
-                                <div class="">
-                                        {% for error in form.short.errors %}
-                                        <span>{{ error }}</span>
-                                        {% endfor %}
-                                </div>
-                                {% else %}
-                                {{ form.short(autocomplete="off", placeholder = "Custom back-half", class = "form-style") }}
-                                {% endif %}
-				<i class="input-icon bi bi-regex"></i>
-			</div>
-			<br>
-			{{ form.submit(class="submit-btn") }}
-		</div>
-
-
-
-	</form>
-</div>
+                        <div class="form-group">
+                                <input placeholder="Destination" class="form-style" type="text" name="nm" id="url"
+                                        pattern="https?://.*\..*"
+                                        title='Please submit a valid website address that includes "https://" or "http://" and "."'
+                                        required>
+                                <i class="input-icon bi bi-link-45deg"></i>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                                <input placeholder="Custom back-half" class="form-style" type="text" name="short" id="short" minlength="3" maxlength="8" required>
+                                <i class="input-icon bi bi-regex"></i>
+                                <a onclick="generateCode()" href="#""><i class=" shuffle-icon bi bi-shuffle"></i></a>
+                        </div>
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                        {% for category, message in messages %}
+                        <br>
+                        <div class="alert alert-{{ category }}">
+                                {{ message }}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                        <br>
+                        <input class="submit-btn" type="submit"></input>
+        </form>
 {% endblock %}
